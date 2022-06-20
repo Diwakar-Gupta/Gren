@@ -1,11 +1,13 @@
 var buttons = document.querySelectorAll(".GREN_button");
 
 function handleGrenData(img_src, res) {
-    const description = document.querySelector(`.GREN_description[data-img_src="${img_src}"]`);
+    const descriptions = document.querySelectorAll(`.GREN_description[data-img_src="${img_src}"]`);
     const button = document.querySelector(`.GREN_button[data-img_src="${img_src}"]`);
     
-    description.innerText = res.message;
-    description.style['display'] = 'block';
+    for(let description of descriptions){
+        description.innerText = `Product=${res.product} Prop=${res.prob}`;
+        description.style['display'] = 'block';
+    }
 }
 
 for (let button of buttons){
@@ -17,21 +19,27 @@ for (let button of buttons){
     button.onclick = function (event) {
         event.stopPropagation();
         event.preventDefault();
-        console.log(`button clicked ${event.target.dataset.img_src}`);
+
+        const img_src = event.target.dataset.img_src;
+        // console.log(`button clicked ${img_src}`);
         
         let headers = new Headers();
         headers.append('Access-Control-Allow-Origin', 'http://127.0.0.1:5000')
 
+        const formData = new FormData();
+        formData.append('image', img_src);
+
         options = {
-            method: 'GET',
-            headers: headers
+            method: 'POST',
+            headers: headers,
+            body: formData,
         }
 
-        fetch('http://127.0.0.1:5000', options)
+        fetch('http://127.0.0.1:5000/', options)
         .then(response => response.json())
         .then(res => {
             console.log(res);
-            handleGrenData(button.dataset.img_src, res);
+            handleGrenData(img_src, res);
         }).catch( err => {
             alert('Failed to connect to backend');
         })
