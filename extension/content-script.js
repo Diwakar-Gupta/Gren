@@ -5,7 +5,25 @@ function handleGrenData(img_src, res) {
     const button = document.querySelector(`.GREN_button[data-img_src="${img_src}"]`);
     
     for(let description of descriptions){
-        description.innerText = `Product=${res.product} Prop=${res.prob}`;
+        description.innerHTML = '';
+
+        const title = document.createElement('h3');
+        title.innerText = `${res.product} [${parseFloat(res.prob).toFixed(2)}%]`;
+        description.appendChild(title);
+
+        const details = document.createElement('p');
+        details.innerText = `${res.details}`;
+        description.appendChild(details);
+
+        const ul = document.createElement('ul');
+        
+        for(let alt of res.alternates){
+            const li = document.createElement('li');
+            li.innerText = alt;
+            ul.appendChild(li);
+        }
+        description.appendChild(ul);
+
         description.style['display'] = 'block';
     }
 }
