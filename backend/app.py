@@ -18,8 +18,19 @@ def get_image(url):
 
 # https://colab.research.google.com/drive/1tuOEoLbnZyutALJ3EeeT_CMC-oGZP027?usp=sharing
 model = tf.keras.models.load_model('model')
+# https://www.kaggle.com/datasets/amandaroseknudsen/foodproductemissions
 product_details = pd.read_csv('CarbonEmission.csv')
-class_names = ['Olive_Oil', 'Palm_Oil', 'Rapeseed_Oil', 'Soyabeen_Oil', 'Sunflower_Oil']
+class_names = ['Beet_Sugar', 'Cane_Sugar', 'Olive_Oil', 'Palm_Oil', 'Rapeseed_Oil', 'Soyabeen_Oil', 'Sunflower_Oil']
+IMAGE_SIZE=(100, 100)
+
+def preprocess(image):
+    image = tf.image.resize(image, IMAGE_SIZE)
+    # image = tf.image.random_crop(image, size=[*IMAGE_SIZE, 3])
+    # image = tf.image.random_flip_left_right(image)
+    # image = tf.image.random_brightness(image, 0.2)
+    # image = tf.image.random_flip_up_down(image)
+    image = tf.keras.applications.xception.preprocess_input(image)
+    return image
 
 def classify_image(images):
     pred = model.predict(images)[0]
@@ -46,6 +57,7 @@ def hello_world():
     print(type(request.form['image']))
     img_src = request.form['image']
     image = get_image(url=img_src)
+    image = preprocess(image)
     images = tf.expand_dims(image, axis=0)
     class_name, prob = classify_image(images)
     details = getproductdetails(class_name)
