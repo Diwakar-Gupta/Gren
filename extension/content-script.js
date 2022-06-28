@@ -59,7 +59,7 @@ for (let button of buttons){
             console.log(res);
             handleGrenData(img_src, res);
         }).catch( err => {
-            alert('Failed to connect to backend');
+            alert('Failed to connect to Gren server');
         })
     }
 }
