@@ -56,3 +56,25 @@ _Approach:_ <br/>
 ## Try it out links
 * <a href="https://github.com/Diwakar-Gupta/Gren/">Code Base</a>
 
+## Use in Local System
+Clone the repository
+```
+git clone https://github.com/Diwakar-Gupta/Gren.git
+cd Gren
+```
+Start the backend
+```
+pip install ./backend/requirements.txt
+FLASK_APP=backend/app flask run
+```
+Install Chrome Extension in browser
+1. open tab **chrome://extensions** in chrome browser
+2. Enable Developer Mode by clicking the toggle switch next to **Developer mode**.
+3. Click the **Load unpacked** button and select the *extension* directory
+
+Now to use the extension in browser
+1. open any e-commerce site and search for your product
+2. click on the extension
+3. click on monitor button
+4. now when you hover on product images search button should appear click on that and wait a little
+5. extension will request server for details and it will appear on the image.
